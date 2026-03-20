@@ -1,7 +1,7 @@
 {
   "name": "nestjs",
   "version": "1.0.0",
-  "description": "NestJS CRUD API with Sequelize",
+  "description": "NestJS API with Sequelize",
   "scripts": {
     "start": "nest start",
     "start:dev": "nest start --watch",
