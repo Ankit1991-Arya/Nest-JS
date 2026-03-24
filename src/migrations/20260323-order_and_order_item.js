@@ -16,3 +16,8 @@ await queryInterface.createTable('order_items', {
   createdAt: Sequelize.DATE,
   updatedAt: Sequelize.DATE
 });
+
+/*
+CREATE INDEX idx_orders_createdAt ON orders("createdAt");
+CREATE INDEX idx_order_items_productId ON order_items("productId");
+*/

@@ -4,6 +4,7 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProductModule } from './modules/product/product.module';
 import { OrderModule } from './modules/order/order.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -24,6 +25,7 @@ dotenv.config();
     AuthModule,
     ProductModule,
     OrderModule,
+    DashboardModule,
   ],
 })
 export class AppModule {}
