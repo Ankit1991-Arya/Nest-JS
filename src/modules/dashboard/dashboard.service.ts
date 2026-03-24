@@ -12,7 +12,6 @@ export class DashboardService {
     @InjectModel(User) private userModel: typeof User,
     @InjectModel(Product) private productModel: typeof Product,
     @InjectModel(Order) private orderModel: typeof Order,
-    @InjectModel(OrderItem) private orderItemModel: typeof OrderItem,
     @InjectConnection() private sequelize: Sequelize,
   ) {}
 
