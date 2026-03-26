@@ -4,6 +4,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
+import { RolesGuard } from './roles.guard';
 import { UserModule } from '../user/user.module';
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -17,8 +18,9 @@ dotenv.config();
       signOptions: { expiresIn: process.env.JWT_EXPIRATION || '3600s' },
     }),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, RolesGuard],
   controllers: [AuthController],
+  exports: [RolesGuard],
 })
 export class AuthModule {}
 
