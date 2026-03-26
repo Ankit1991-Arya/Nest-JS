@@ -13,5 +13,8 @@ export class Product extends Model<Product> {
 
     @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
     stock: number;
+
+    @Column({ type: DataType.STRING, allowNull: false })
+    tenantId: string;
 }
 

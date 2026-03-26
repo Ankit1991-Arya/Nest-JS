@@ -20,4 +20,11 @@ export class CreateUserDto {
   @IsString()
   @IsIn(['admin', 'user'])
   role?: string;
+
+  @IsOptional()
+  @IsString()
+  tenantId?: string;
+
+  @IsOptional()
+  permissions?: string[];
 }

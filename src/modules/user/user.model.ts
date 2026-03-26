@@ -19,5 +19,11 @@ export class User extends Model<User> {
 
   @Column({ type: DataType.STRING, allowNull: true })
   refreshToken?: string;
+
+  @Column({ type: DataType.STRING, allowNull: true })
+  tenantId?: string;
+
+  @Column({ type: DataType.TEXT, allowNull: true, defaultValue: '[]' })
+  permissions?: string;
 }
 

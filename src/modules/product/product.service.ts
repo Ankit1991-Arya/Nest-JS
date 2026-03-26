@@ -13,24 +13,25 @@ export class ProductService {
         return product;
     }
 
-    findAll() {
-        return this.productModel.findAll();
+    findAll(tenantId: string) {
+        return this.productModel.findAll({ where: { tenantId } });
     }
 
-    async findOne(id: number) {
-        const product = await this.productModel.findByPk(id);
+    async findOne(id: number, tenantId: string) {
+        const product = await this.productModel.findOne({ where: { id, tenantId } });
         if (!product) throw new NotFoundException('Product not found');
         return product;
     }
 
-    async update(id: number, updateProductDto: UpdateProductDto) {
-        await this.productModel.update(updateProductDto, { where: { id } });
-        return this.findOne(id);
+    async update(id: number, tenantId: string, updateProductDto: UpdateProductDto) {
+        const product = await this.findOne(id, tenantId);
+        await this.productModel.update(updateProductDto, { where: { id, tenantId } });
+        return product;
     }
 
-    async remove(id: number) {
-        const product = await this.findOne(id);
-        await this.productModel.destroy({ where: { id } });
+    async remove(id: number, tenantId: string) {
+        const product = await this.findOne(id, tenantId);
+        await this.productModel.destroy({ where: { id, tenantId } });
         return product;
     }
 

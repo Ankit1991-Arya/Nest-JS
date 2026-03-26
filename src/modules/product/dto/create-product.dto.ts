@@ -14,4 +14,8 @@ export class CreateProductDto {
     @IsNumber()
     @IsOptional()
     stock: number;
+
+    @IsOptional()
+    @IsString()
+    tenantId?: string;
 }

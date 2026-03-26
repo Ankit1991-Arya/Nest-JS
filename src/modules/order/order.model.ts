@@ -21,6 +21,9 @@ export class Order extends Model<Order> {
   @Column({ defaultValue: 'PENDING' })
   status: string;
 
+  @Column({ type: DataType.STRING, allowNull: false })
+  tenantId: string;
+
   @HasMany(() => OrderItem)
   items: OrderItem[];
 }

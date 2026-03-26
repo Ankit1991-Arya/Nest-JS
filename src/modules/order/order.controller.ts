@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -16,17 +17,17 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
-  create(@Body() dto: CreateOrderDto) {
-    return this.orderService.createOrder(dto);
+  create(@Req() req, @Body() dto: CreateOrderDto) {
+    return this.orderService.createOrder({ ...dto, tenantId: req.user.tenantId });
   }
 
   @Get()
-  findAll() {
-    return this.orderService.findAll();
+  findAll(@Req() req) {
+    return this.orderService.findAll(req.user.tenantId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.orderService.findOne(+id);
+  findOne(@Req() req, @Param('id') id: string) {
+    return this.orderService.findOne(+id, req.user.tenantId);
   }
 }

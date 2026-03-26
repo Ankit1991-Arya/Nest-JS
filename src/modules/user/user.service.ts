@@ -10,8 +10,13 @@ export class UserService {
   constructor(@InjectModel(User) private userModel: typeof User) {}
 
   async create(createUserDto: CreateUserDto) {
-    const user = await this.userModel.create({ ...createUserDto });
-    const { password, ...rest } = user.toJSON() as any;
+    const defaultPermissions = createUserDto.role === 'admin' ? ['dashboard.read', 'products.manage', 'orders.manage'] : ['products.read', 'orders.read'];
+    const user = await this.userModel.create({
+      ...createUserDto,
+      tenantId: createUserDto.tenantId || 'default',
+      permissions: JSON.stringify(createUserDto.permissions || defaultPermissions),
+    });
+    const { password, refreshToken, ...rest } = user.toJSON() as any;
     return rest;
   }
 
@@ -30,7 +35,11 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    await this.userModel.update(updateUserDto, { where: { id } });
+    const updateDto = {
+      ...updateUserDto,
+      permissions: updateUserDto.permissions ? JSON.stringify(updateUserDto.permissions) : undefined,
+    };
+    await this.userModel.update(updateDto as any, { where: { id } });
     return this.findOne(id);
   }
 

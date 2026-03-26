@@ -13,16 +13,19 @@ export class OrderService {
     @InjectModel(Product) private productModel: typeof Product,
   ) {}
 
-  async createOrder(dto: CreateOrderDto) {
+  async createOrder(dto: CreateOrderDto & { tenantId: string }) {
     let totalAmount = 0;
 
     const order = await this.orderModel.create({
       userId: dto.userId,
       totalAmount: 0,
+      tenantId: dto.tenantId,
     });
 
     for (const item of dto.items) {
-      const product = await this.productModel.findByPk(item.productId);
+      const product = await this.productModel.findOne({
+        where: { id: item.productId, tenantId: dto.tenantId },
+      });
 
       if (!product) {
         throw new NotFoundException(`Product ${item.productId} not found`);
@@ -42,17 +45,19 @@ export class OrderService {
     order.totalAmount = totalAmount;
     await order.save();
 
-    return this.findOne(order.id);
+    return this.findOne(order.id, dto.tenantId);
   }
 
-  findAll() {
+  findAll(tenantId: string) {
     return this.orderModel.findAll({
+      where: { tenantId },
       include: [OrderItem],
     });
   }
 
-  async findOne(id: number) {
-    const order = await this.orderModel.findByPk(id, {
+  async findOne(id: number, tenantId: string) {
+    const order = await this.orderModel.findOne({
+      where: { id, tenantId },
       include: [OrderItem],
     });
 

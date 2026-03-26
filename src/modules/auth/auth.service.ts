@@ -19,7 +19,14 @@ export class AuthService {
   }
 
   async getTokens(user: any) {
-    const payload = { email: user.email, sub: user.id, role: user.role };
+    const payload = {
+      email: user.email,
+      sub: user.id,
+      role: user.role,
+      tenantId: user.tenantId || 'default',
+      permissions: user.permissions || [],
+    };
+
     const accessToken = this.jwtService.sign(payload, { expiresIn: '15m' });
     const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
     await this.usersService.setCurrentRefreshToken(refreshToken, user.id);
