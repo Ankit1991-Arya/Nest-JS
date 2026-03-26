@@ -16,5 +16,8 @@ export class User extends Model<User> {
 
   @Column({ type: DataType.ENUM('admin', 'user'), defaultValue: 'user' })
   role: string;
+
+  @Column({ type: DataType.STRING, allowNull: true })
+  refreshToken?: string;
 }
 

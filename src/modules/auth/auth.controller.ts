@@ -17,4 +17,16 @@ export class AuthController {
     if (!user) throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     return this.authService.login(user);
   }
+
+  @Post('refresh')
+  async refresh(@Body() body: { userId: number; refreshToken: string }) {
+    const tokens = await this.authService.refreshTokens(body.userId, body.refreshToken);
+    return tokens;
+  }
+
+  @Post('logout')
+  async logout(@Body() body: { userId: number }) {
+    await this.authService.logout(body.userId);
+    return { message: 'Logged out' };
+  }
 }
