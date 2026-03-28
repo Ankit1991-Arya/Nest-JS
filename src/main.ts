@@ -6,6 +6,7 @@ import * as cors from 'cors';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
+import { AuditInterceptor } from './modules/audit/audit.interceptor';
 
 async function bootstrap() {
   dotenv.config();
@@ -15,6 +16,10 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalInterceptors(new TransformInterceptor());
+
+  // Apply AuditInterceptor globally
+  const auditInterceptor = app.get(AuditInterceptor);
+  app.useGlobalInterceptors(auditInterceptor);
 
   const config = new DocumentBuilder()
     .setTitle('NestJS Sequelize CRUD API')

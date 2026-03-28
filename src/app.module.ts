@@ -5,6 +5,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ProductModule } from './modules/product/product.module';
 import { OrderModule } from './modules/order/order.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { AuditModule } from './modules/audit/audit.module';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -26,6 +27,7 @@ dotenv.config();
     ProductModule,
     OrderModule,
     DashboardModule,
+    AuditModule,
   ],
 })
 export class AppModule {}

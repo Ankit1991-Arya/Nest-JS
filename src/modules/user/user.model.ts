@@ -1,4 +1,5 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
+import { AuditLog } from '../audit/audit-log.model';
 
 @Table({ tableName: 'users' })
 export class User extends Model<User> {
@@ -25,5 +26,8 @@ export class User extends Model<User> {
 
   @Column({ type: DataType.TEXT, allowNull: true, defaultValue: '[]' })
   permissions?: string;
+
+  @HasMany(() => AuditLog)
+  auditLogs: AuditLog[];
 }
 
